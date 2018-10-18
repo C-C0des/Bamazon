@@ -18,19 +18,23 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if (err) throw err;
     console.log("connection successful");
-    makeTable();
+    runStore();
 });
 
 
-// Make table function - collects data and prints it to screen
-//Create function that allows customers to see all the different products for sale and their prices.
 
 
+// Function runStore !
 
-function makeTable(){
-    connection.query("SELECT * FROM products", function (err, res){
-      for(var i = 0; i < res.length; i++){
 
+function runStore(){
+    connection.query('SELECT * FROM Products', function(err, res){
+      if(err) throw err;
+    
+      console.log("Welcome to Bamzon");
+      console.log("____________________________________________________");
+      
+      for(var i = 0; i<res.length;i++){   
         var items = 
         "____________________________________________________" + "\r\n" +
         "ItemID: " + res[i].item_id + "\r\n" +
@@ -39,12 +43,20 @@ function makeTable(){
         "Price: $" + res[i].price + "\r\n" +
         "Quantity: " + res[i].stock_quantity + "\r\n" +
         "____________________________________________________"
-        console.log(items);  }
+        console.log(items);}
+       // console.log(' ');
+        inquirer.prompt([
+        {
+          type: "input",
+          name: "choice",
+          message: "What would you would like to purchase?"
+        }]).then(function(answer) {
+            var correct = false;
+            
+
+        })
 
     })
 
 }
-		
-
-
-
+          

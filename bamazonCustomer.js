@@ -18,5 +18,33 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if (err) throw err;
     console.log("connection successful");
+    makeTable();
 });
+
+
+// Make table function - collects data and prints it to screen
+//Create function that allows customers to see all the different products for sale and their prices.
+
+
+
+function makeTable(){
+    connection.query("SELECT * FROM products", function (err, res){
+      for(var i = 0; i < res.length; i++){
+
+        var items = 
+        "____________________________________________________" + "\r\n" +
+        "ItemID: " + res[i].item_id + "\r\n" +
+        "Product: " + res[i].product_name + "\r\n" +
+        "Department: " + res[i].department_name + "\r\n" +
+        "Price: $" + res[i].price + "\r\n" +
+        "Quantity: " + res[i].stock_quantity + "\r\n" +
+        "____________________________________________________"
+        console.log(items);  }
+
+    })
+
+}
+		
+
+
 

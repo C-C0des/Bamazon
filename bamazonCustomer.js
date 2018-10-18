@@ -18,33 +18,43 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if (err) throw err;
     console.log("connection successful");
-    runStore();
+    displayProduct();
 });
 
 
 
+// Functions
+//Display items for user
 
-// Function runStore !
+function displayProduct(){
 
-
-function runStore(){
-    connection.query('SELECT * FROM Products', function(err, res){
-      if(err) throw err;
-    
-      console.log("Welcome to Bamzon");
-      console.log("____________________________________________________");
+    connection.query('SELECT * FROM products', function(err, res){
+        if(err) throw err;
       
-      for(var i = 0; i<res.length;i++){   
-        var items = 
-        "____________________________________________________" + "\r\n" +
-        "ItemID: " + res[i].item_id + "\r\n" +
-        "Product: " + res[i].product_name + "\r\n" +
-        "Department: " + res[i].department_name + "\r\n" +
-        "Price: $" + res[i].price + "\r\n" +
-        "Quantity: " + res[i].stock_quantity + "\r\n" +
-        "____________________________________________________"
-        console.log(items);}
-       // console.log(' ');
+        console.log("Welcome to Bamazon");
+        console.log("____________________________________________________");
+        
+        for(var i = 0; i<res.length;i++){   
+          var items = 
+          "____________________________________________________" + "\r\n" +
+          "ItemID: " + res[i].itemid + "\r\n" +
+          "Product: " + res[i].productname + "\r\n" +
+          "Department: " + res[i].departmentname + "\r\n" +
+          "Price: $" + res[i].price + "\r\n" +
+          "Quantity: " + res[i].stockquantity + "\r\n" +
+          "____________________________________________________"
+          console.log(items);
+            }
+         selectProduct(res);
+        })      
+}
+
+
+/*
+
+// Allow users to select items/products
+
+ function selectProduct(res){
         inquirer.prompt([
         {
           type: "input",
@@ -52,11 +62,39 @@ function runStore(){
           message: "What would you would like to purchase?"
         }]).then(function(answer) {
             var correct = false;
-            
+            for(var i = 0; i < res.length; i++){
+                if (res[i].productname == answer.choice){
+                    correct = true;
+                    var product = answer.choice;
+                    var id = i;
 
-        })
-
+                    inquirer.prompt({
+                        type: "input",
+                        name:"quant",
+                        message: "How many items would you like to purchase?",
+                        validate: function (value){
+                            if(isNaN(value) == false){
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }).then(function(answer){
+                        if ((res[id].stockquantity-answer.quant)>0){
+                            connection.query ("UPDATE products SET stockquantity =' " +  (res[id].stockquantity-
+                                answer.quant)+ " ' WHERE productname = ' " + productname + " ' ", function(err, res2){
+                                    console.log("Item purchased!");
+                                    displayProduct();
+                                })
+                        } else {
+                            console.log("Sorry, the item you wish to purchase is no longer available.");
+                            selectProduct(res);
+                        }
+                    })
+                }
+          }
     })
-
 }
+
+*/
           

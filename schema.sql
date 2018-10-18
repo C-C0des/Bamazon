@@ -39,17 +39,17 @@ USE bamazon;
 --  Create table products in bamazon database... --
 CREATE TABLE products (
 	-- Unique id for each product --
-    item_id INTEGER AUTO_INCREMENT NOT NULL,
+    itemid INTEGER AUTO_INCREMENT NOT NULL,
     -- Name of product --
-	product_name VARCHAR(45) NOT NULL,
+	productname VARCHAR(45) NOT NULL,
     -- Department name --
-	department_name VARCHAR(45) NOT NULL,
+	departmentname VARCHAR(45) NOT NULL,
     -- The Product Cost to customer --
 	price DECIMAL(10,2) NOT NULL,
     -- The Product Availabilty --
-	stock_quantity INTEGER(10) NOT NULL,
+	stockquantity INTEGER(10) NOT NULL,
     -- Make item_id the primary key --
-	PRIMARY KEY (item_id)
+	PRIMARY KEY (itemid)
 );
 
 
@@ -60,7 +60,7 @@ CREATE TABLE products (
  ... filling the table with items from https://www.amazon.com/Best-Sellers/
  */
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (productname, departmentname, price, stockquantity)
 VALUES ("Nintendo Entertainment System", "Video Games", 129.99, 150), 
 ("SKII Essence Set", "Beauty", 125.99, 20),
 ("3D Sleep Mask", "Personal Care", 20.99, 15),
@@ -71,6 +71,7 @@ VALUES ("Nintendo Entertainment System", "Video Games", 129.99, 150),
 ("Callaway Golf Balls", "Sports", 49.99, 8),
 ("Clean Code", "Books", 51.95, 11),
 ("Raspberri Pi", "Electronics", 119.99, 10);
+
 
 
 

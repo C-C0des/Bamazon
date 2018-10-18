@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 	port: 3306,
 	user: "root",
 	password: "",
-	database: 'bamazon'
+	database: 'Bamazon'
 });
 
 // Initialize the mysql connection
@@ -24,11 +24,11 @@ connection.connect(function(err){
 
 
 // Functions
-//Display items for user
+//Display Products for user
 
 function displayProduct(){
 
-    connection.query('SELECT * FROM products', function(err, res){
+    connection.query('SELECT * FROM Products', function(err, res){
         if(err) throw err;
       
         console.log("Welcome to Bamazon");
@@ -37,64 +37,69 @@ function displayProduct(){
         for(var i = 0; i<res.length;i++){   
           var items = 
           "____________________________________________________" + "\r\n" +
-          "ItemID: " + res[i].itemid + "\r\n" +
-          "Product: " + res[i].productname + "\r\n" +
-          "Department: " + res[i].departmentname + "\r\n" +
+          "ItemID: " + res[i].item_id + "\r\n" +
+          "Product: " + res[i].product_name + "\r\n" +
+          "Department: " + res[i].department_name + "\r\n" +
           "Price: $" + res[i].price + "\r\n" +
-          "Quantity: " + res[i].stockquantity + "\r\n" +
+          "Quantity: " + res[i].stock_quantity + "\r\n" +
           "____________________________________________________"
           console.log(items);
             }
-         selectProduct(res);
+         selectProduct();
         })      
 }
 
 
-/*
+//Select Product
 
-// Allow users to select items/products
-
- function selectProduct(res){
-        inquirer.prompt([
+function selectProduct() {
+    inquirer.prompt([
         {
-          type: "input",
-          name: "choice",
-          message: "What would you would like to purchase?"
-        }]).then(function(answer) {
-            var correct = false;
-            for(var i = 0; i < res.length; i++){
-                if (res[i].productname == answer.choice){
-                    correct = true;
-                    var product = answer.choice;
-                    var id = i;
+            name: "ID",
+            type: "input",
+            message: "What is the item number of the product you wish to purchase?"
+        }, {
+            name: 'quant',
+            type: 'input',
+            message: "How many would you like to purchase?"
+        },
 
-                    inquirer.prompt({
-                        type: "input",
-                        name:"quant",
-                        message: "How many items would you like to purchase?",
-                        validate: function (value){
-                            if(isNaN(value) == false){
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    }).then(function(answer){
-                        if ((res[id].stockquantity-answer.quant)>0){
-                            connection.query ("UPDATE products SET stockquantity =' " +  (res[id].stockquantity-
-                                answer.quant)+ " ' WHERE productname = ' " + productname + " ' ", function(err, res2){
-                                    console.log("Item purchased!");
-                                    displayProduct();
-                                })
-                        } else {
-                            console.log("Sorry, the item you wish to purchase is no longer available.");
-                            selectProduct(res);
-                        }
-                    })
-                }
-          }
-    })
-}
+    ]).then(function(answer) {
+        var quantityDesired = answer.quant;
+        var IDDesired = answer.ID;
+        purchaseProduct(IDDesired, quantityDesired);
+    });
 
-*/
-          
+};
+
+
+
+
+
+//Purchase product function
+
+
+function purchaseProduct(ID, quantityNeeded) {
+  
+    connection.query('SELECT * FROM Products WHERE item_id = ' + ID, function(err, res) {
+        if (err) throw err;
+
+        
+        if (quantityNeeded <= res[0].stock_quantity) {
+            var totalCost = res[0].price * quantityNeeded;
+
+            console.log("Product is available!");
+            console.log("Total cost for " + quantityNeeded + " " + res[0].product_name + " is " + totalCost);
+            connection.query('UPDATE Products SET stock_quantity = stock_quantity - ' + quantityNeeded + ' WHERE item_id = ' + ID);
+        } else {
+            console.log("Sorry " + res[0].product_name + " is not available");
+        };
+        displayProduct();
+    });
+
+}; 
+
+
+
+
+

@@ -18,11 +18,12 @@ To do this: Create Bamazon's Inventory:
 
 -- STEP ONE -----------------------------------------------------------------------------
 -- If a database names bamazon already exists, drop it -- 
-DROP DATABASE IF EXISTS bamazon;
+DROP DATABASE IF EXISTS Bamazon;
 -- Next create the database --
-CREATE DATABASE bamazon;
+CREATE DATABASE Bamazon;
 -- Use the database --
-USE bamazon;
+USE Bamazon;
+
 
 
 -- STEP TWO -----------------------------------------------------------------------------
@@ -37,20 +38,21 @@ USE bamazon;
 */
 
 --  Create table products in bamazon database... --
-CREATE TABLE products (
+CREATE TABLE Products (
 	-- Unique id for each product --
-    itemid INTEGER AUTO_INCREMENT NOT NULL,
+    item_id INTEGER AUTO_INCREMENT NOT NULL,
     -- Name of product --
-	productname VARCHAR(45) NOT NULL,
+	product_name VARCHAR(45) NOT NULL,
     -- Department name --
-	departmentname VARCHAR(45) NOT NULL,
+	department_name VARCHAR(45) NOT NULL,
     -- The Product Cost to customer --
 	price DECIMAL(10,2) NOT NULL,
     -- The Product Availabilty --
-	stockquantity INTEGER(10) NOT NULL,
+	stock_quantity INTEGER(10) NOT NULL,
     -- Make item_id the primary key --
-	PRIMARY KEY (itemid)
+	PRIMARY KEY (item_id)
 );
+
 
 
 -- STEP THREE -----------------------------------------------------------------------------
@@ -60,7 +62,7 @@ CREATE TABLE products (
  ... filling the table with items from https://www.amazon.com/Best-Sellers/
  */
 
-INSERT INTO products (productname, departmentname, price, stockquantity)
+INSERT INTO Products (product_name, department_name, price, stock_quantity)
 VALUES ("Nintendo Entertainment System", "Video Games", 129.99, 150), 
 ("SKII Essence Set", "Beauty", 125.99, 20),
 ("3D Sleep Mask", "Personal Care", 20.99, 15),

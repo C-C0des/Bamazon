@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 	port: 3306,
 	user: "root",
 	password: "",
-	database: 'Bamazon'
+	database: "BamazonDB"
 });
 
 // Initialize the mysql connection
@@ -82,7 +82,7 @@ function selectProduct() {
 function purchaseProduct(ID, quantityNeeded) {
   
     connection.query('SELECT * FROM Products WHERE item_id = ' + ID, function(err, res) {
-        if (err) throw err;
+        if (err) {return console.log(err)};
 
         
         if (quantityNeeded <= res[0].stock_quantity) {
@@ -94,6 +94,7 @@ function purchaseProduct(ID, quantityNeeded) {
         } else {
             console.log("Sorry " + res[0].product_name + " is not available");
         };
+        console.log("You've purchased "+ res[0].product_name);
         displayProduct();
     });
 

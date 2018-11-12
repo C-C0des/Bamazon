@@ -18,11 +18,11 @@ To do this: Create Bamazon's Inventory:
 
 -- STEP ONE -----------------------------------------------------------------------------
 -- If a database names BamazonDB already exists, drop it -- 
-DROP DATABASE IF EXISTS BamazonDB;
+DROP DATABASE IF EXISTS bamazon_DB;
 -- Next create the database --
-CREATE DATABASE BamazonDB;
+CREATE DATABASE bamazon_DB;
 -- Use the database --
-USE BamazonDB;
+USE bamazon_DB;
 
 
 
